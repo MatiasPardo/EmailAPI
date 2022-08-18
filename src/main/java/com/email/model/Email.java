@@ -2,10 +2,13 @@ package com.email.model;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
-//import javax.activation.*;
-//import javax.mail.*;
-//import javax.mail.internet.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import jakarta.activation.*;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
@@ -16,21 +19,35 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Email {
-
-	private String smtpHost;
+	@Positive
 	private int smtpPort;
+
+	@NotBlank
+	private String smtpHost;
+	@NotBlank
 	private String mailUser;
+	@NotBlank
 	private String mailUserPassword;
-	private boolean isSMTPStartTLSEnable;
-	private boolean isSMTPHostTrusted;
+	@NotBlank 
     private String fromEmail;
+	@NotBlank
     private String toEmail;
     private String ccEmail;
+	@NotBlank
 	private String subject;
+	@NotBlank
 	private String content;
-	private boolean htmlContent;
+	@NotBlank
 	private String schema;
+	@NotBlank
 	private String filename;
+
+	@NotNull
+	private boolean SMTPStartTLSEnable;
+	@NotNull
+	private boolean SMTPHostTrusted;
+	@NotNull
+	private boolean htmlContent;
 
 	public static void sendEmail(String smtpHost, int smtpPort, String mailUser, String mailUserPassword,
 									boolean isSMTPHostTrusted, boolean isSMTPStartTLSEnable,    							
@@ -38,26 +55,30 @@ public class Email {
 									String subject, String content, boolean htmlContent, Attachment... attachments)
 									throws Exception {
 
-	// Create a mail session
-	Session session = getMailSession(smtpHost, smtpPort, mailUser, mailUserPassword, true, true);
+		// Create a mail session
+		Session session = getMailSession(smtpHost, smtpPort, mailUser, mailUserPassword, true, true);
 
-	// Construct the message
-	Message msg = new MimeMessage(session);
-	msg.setFrom(new InternetAddress(fromEmail));
-	msg = setTORecipients(msg, toEmail);
-	if (!ccEmail.isEmpty()){
-		msg = setCCRecipients(msg, ccEmail);
-	}
-	msg.setSubject(subject);
-	if (attachments != null && attachments.length > 0 ) {
-		addContentAndAttachments(msg, content, htmlContent, attachments);
-	}
-	else{
-		msg.setContent(content, "text/html");
-	}
-			
-	// Send the message
-	Transport.send(msg);
+		// Construct the message
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress(fromEmail));
+		msg = setTORecipients(msg, toEmail);
+		if (!ccEmail.isEmpty()){
+			msg = setCCRecipients(msg, ccEmail);
+		}
+		msg.setSubject(subject);
+		if (attachments != null && attachments.length > 0 ) {
+			addContentAndAttachments(msg, content, htmlContent, attachments);
+		}
+		else{
+			msg.setContent(content, "text/html");
+		}
+				
+		// Send the message
+		Transport.send(msg);
+		Logger logger = Logger.getLogger("Email");
+        logger.setLevel(Level.INFO);
+		logger.info("Email sent!");
+
 }
 
 	private static Session getMailSession(String smtpHost, int smtpPort, String mailUser, String mailUserPassword,
@@ -167,6 +188,6 @@ public class Email {
 		}
 		//
 		msg.setContent(multipart);
-    }
-
+    }    
+    
 }
