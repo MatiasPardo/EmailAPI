@@ -7,7 +7,7 @@ These instructions will get the project up and running on a local machine.
 ### Deploy 🔧
 ```
 mvn clean install   
-java -jar -Dserver.port=8091 -Dlogging.file.name=C:\Logs emailservice.jar
+java -jar -Dserver.port=8091 -Dlogging.file.name=C:\Logs email-service.jar
 ```
 
 ## Autors ✒️

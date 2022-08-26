@@ -9,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.activation.*;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
@@ -18,6 +20,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Component
 public class Email {
 	@Positive
 	private int smtpPort;
@@ -37,9 +40,7 @@ public class Email {
 	private String subject;
 	@NotBlank
 	private String content;
-	@NotBlank
 	private String schema;
-	@NotBlank
 	private String filename;
 
 	@NotNull
@@ -48,6 +49,13 @@ public class Email {
 	private boolean SMTPHostTrusted;
 	@NotNull
 	private boolean htmlContent;
+
+	//@Scheduled(cron = "*/10 * * * * *")
+	public void automaticMailSending(){
+		Logger logger = Logger.getLogger("Job");
+        logger.setLevel(Level.INFO);
+		logger.info("Email sent!");
+	}
 
 	public static void sendEmail(String smtpHost, int smtpPort, String mailUser, String mailUserPassword,
 									boolean isSMTPHostTrusted, boolean isSMTPStartTLSEnable,    							
