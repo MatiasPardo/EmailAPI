@@ -1,4 +1,4 @@
-package com.email.model;
+package com.producteca.web;
 
 import java.util.HashMap;
 import java.util.Map;
