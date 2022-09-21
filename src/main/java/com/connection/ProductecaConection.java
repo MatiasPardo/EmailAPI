@@ -7,6 +7,7 @@ import lombok.Setter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 @Getter
 @Setter
@@ -30,11 +31,15 @@ public class ProductecaConection {
 		String responseString = "";
 		
 		response = client.newCall(request).execute();
+		ResponseBody body = response.body();
 		try{
-			responseString = response.body().string();
+			responseString = body.string();
 		}finally{
 			if(!response.isSuccessful()) {
 				throw new Exception("Error " + response.code() + " API Producteca: " + responseString);
+			}
+			if(body != null){
+				body.close();
 			}
 		}
 		return responseString;
