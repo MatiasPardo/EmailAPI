@@ -14,3 +14,8 @@ java -jar -Dserver.port=8091 -Dlogging.file.name=C:\Logs email-service.jar
 
 
 ***Matías Goñi*** - [matiezequiel](https://github.com/matiezequiel)
+
+## collaborators ✒️
+
+
+***Matías Pardo*** - [matiaspardo](https://github.com/matiaspardo)
